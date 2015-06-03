@@ -23,7 +23,8 @@ RUN apt-get update && apt-get -y upgrade \
   && php5enmod mcrypt \
   && sed -i.bak -e "s/^;date\.timezone =.*$/date\.timezone = 'Asia\/Tokyo'/" /etc/php5/apache2/php.ini \
   && sed -i     -e "s/^;default_charset =.*$/default_charset = \"UTF-8\"/"   /etc/php5/apache2/php.ini \
-  && curl -0L http://wordpress.org/wordpress-4.1.1.tar.gz | tar zxv
+  && cd /usr/local \
+  && curl -0L http://wordpress.org/wordpress-4.2.2.tar.gz | tar zxv
 
 # RUN sed -i -e 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 
