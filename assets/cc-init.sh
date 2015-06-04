@@ -6,6 +6,7 @@
 ########################################################################
 
 #--- HISTORY 2----------------------------------------------------------
+# 04-jun-15 : key & salt.
 # 04-jun-15 : created.
 #-----------------------------------------------------------------------
 
@@ -61,49 +62,37 @@ function save_env_for_config_mysql () {
 }
 
 
-##################
-### ROUND CUBE ###
-##################
+#################
+### WORDPRESS ###
+#################
 
-function set_config_inc_php () {
-  local config_file="/var/www/html/config/config.inc.php"
-  local random
-  random=`pwgen -s 24 1`
-  #random=`pwgen -s -y 24 1`
+function set_wp_config_php () {
+  local config_file="/var/www/html/wp-config.php
 
-  # $config['des_key'] = '';
-  sed -i.bak -e "s/^\$config\['des_key'\].*/\$config['des_key'] = '${random}';/" $config_file
+  local random1=`pwgen -s 64 1`
+  local random2=`pwgen -s 64 1`
+  local random3=`pwgen -s 64 1`
+  local random4=`pwgen -s 64 1`
+  local random5=`pwgen -s 64 1`
+  local random6=`pwgen -s 64 1`
+  local random7=`pwgen -s 64 1`
+  local random8=`pwgen -s 64 1`
 
-  # $config['default_host'] = NULL;
-  if [ ! -z $DEFAULT_HOST ]; then
-    sed -i -e "s/^\$config\['default_host'\].*/\$config['default_host'] = '${DEFAULT_HOST}';/" $config_file
-  fi
+  sed -i.bak -e s/^define\(\'AUTH_KEY\',\s*.*\)\;$/define\(\'AUTH_KEY\',\'${random1}\'\)\;/               $config_file
 
-  # $config['smtp_server'] = '';
-  if [ ! -z $SMTP_SERVER ]; then
-    sed -i -e "s/^\$config\['smtp_server'\].*/\$config['smtp_server'] = '${SMTP_SERVER}';/" $config_file
-  fi
+  sed -i     -e s/^define\(\'SECURE_AUTH_KEY\',\s*.*\)\;$/define\(\'SECURE_AUTH_KEY\',\'${random2}\'\)\;/ $config_file
 
-  # $config['smtp_user'] = '';
-  if [ ! -z $SMTP_USER ]; then
-    sed -i -e "s/^\$config\['smtp_user'\].*/\$config['smtp_user'] = '${SMTP_USER}';/" $config_file
-  fi
+  sed -i     -e s/^define\(\'LOGGED_IN_KEY\',\s*.*\)\;$/define\(\'LOGGED_IN_KEY\',\'${random3}\'\)\;/     $config_file
 
-  #$config['smtp_pass'] = '';
-  if [ ! -z $SMTP_PASS ]; then
-    sed -i -e "s/^\$config\['smtp_pass'\].*/\$config['smtp_pass'] = '${SMTP_PASS}';/" $config_file
-  fi
+  sed -i     -e s/^define\(\'NONCE_KEY\',\s*.*\)\;$/define\(\'NONCE_KEY\',\'${random4}\'\)\;/             $config_file
 
-  # $config['language'] = 'en_US';
-  if [ ! -z $LANGUAGE ]; then
-    sed -i -e "s/^\$config\['language'\].*/\$config['language'] = '${LANGUAGE}';/" $config_file
-  fi
+  sed -i     -e s/^define\(\'AUTH_SALT\',\s*.*\)\;$/define\(\'AUTH_SALT\',\'${random5}\'\)\;/             $config_file
 
-  # $config['support_url'] = '';
-  if [ ! -z $SUPPORT_URL ]; then
-    sed -i -e "s#^\$config\['support_url'\].*#\$config['support_url'] = '${SUPPORT_URL}';#" $config_file
-    #sed -i -e "s/^\$config\['support_url'\].*/\$config['support_url'] = '${SUPPORT_URL}';/" $config_file
-  fi
+  sed -i     -e s/^define\(\'SECURE_AUTH_SALT\',\s*.*\)\;$/define\(\'SECURE_AUTH_SALT\',\'${random6}\'\)\;/ $config_file
+
+  sed -i     -e s/^define\(\'LOGGED_IN_SALT\',\s*.*\)\;$/define\(\'LOGGED_IN_SALT\',\'${random7}\'\)\;/   $config_file
+
+  sed -i     -e s/^define\(\'NONCE_SALT\',\s*.*\)\;$/define\(\'NONCE_SALT\',\'${random8}\'\)\;/           $config_file
 }
 
 
@@ -132,7 +121,7 @@ init
 change_root_password
 put_public_key
 save_env_for_config_mysql
-#set_config_inc_php
+set_wp_config_php
 proc_supervisor
 
 exit 0
