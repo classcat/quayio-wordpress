@@ -138,7 +138,7 @@ init2
 set_wp_config_php
 proc_supervisor
 
-sleep 5
+# initialize database.
 /opt/bin/cc-initdb.sh
 
 exit 0
