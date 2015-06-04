@@ -7,6 +7,7 @@ MAINTAINER ClassCat Co.,Ltd. <support@classcat.com>
 ########################################################################
 
 #--- HISTORY -----------------------------------------------------------
+# 04-jun-15 : delay initialializing /var/www/html to map volume.
 # 04-jun-15 : ja, wp-config.ja.php
 # 04-jun-15 : pwgen, wp-config.php
 # 04-jun-15 : created.
@@ -28,16 +29,17 @@ RUN apt-get update && apt-get -y upgrade \
   && sed -i     -e "s/^;default_charset =.*$/default_charset = \"UTF-8\"/"   /etc/php5/apache2/php.ini \
   && cd /usr/local \
   && wget https://ja.wordpress.org/wordpress-4.2.2-ja.zip \
-  && unzip wordpress-4.2.2-ja.zip \
-  && mv /var/www/html /var/www/html.orig \
-  && cp -a wordpress /var/www/html \
-  && chown root.root -R /var/www/html
+  && unzip wordpress-4.2.2-ja.zip
+#  && mv /var/www/html /var/www/html.orig \
+#  && cp -a wordpress /var/www/html \
+#  && chown root.root -R /var/www/html
 
 # RUN sed -i -e 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 
 COPY assets/supervisord.conf /etc/supervisor/supervisord.conf
 
-COPY assets/wp-config.ja.php /var/www/html/wp-config.php
+COPY assets/wp-config.ja.php /opt/etc/wp-config.php
+#COPY assets/wp-config.ja.php /var/www/html/wp-config.php
 #COPY assets/wp-config.php /var/www/html/wp-config.php
 
 WORKDIR /opt
