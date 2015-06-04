@@ -48,4 +48,5 @@ COPY assets/cc-initdb.sh /opt/bin/cc-initdb.sh
 
 EXPOSE 22 80
 
-CMD /opt/bin/cc-init.sh; sleep 5; /opt/bin/cc-initdb.sh; /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+CMD /opt/bin/cc-init.sh; /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+#CMD /opt/bin/cc-init.sh; sleep 5; /opt/bin/cc-initdb.sh; /usr/bin/supervisord -c /etc/supervisor/supervisord.conf

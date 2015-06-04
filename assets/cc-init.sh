@@ -6,6 +6,7 @@
 ########################################################################
 
 #--- HISTORY 2----------------------------------------------------------
+# 04-jun-15 : call cc-initdb.sh finally.
 # 04-jun-15 : delay initialializing /var/www/html to map volume.
 # 04-jun-15 : key & salt.
 # 04-jun-15 : created.
@@ -136,6 +137,9 @@ save_env_for_config_mysql
 init2
 set_wp_config_php
 proc_supervisor
+
+sleep 5
+/opt/bin/cc-initdb.sh
 
 exit 0
 
