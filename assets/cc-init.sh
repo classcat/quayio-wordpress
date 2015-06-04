@@ -6,6 +6,7 @@
 ########################################################################
 
 #--- HISTORY 2----------------------------------------------------------
+# 05-jun-15 : www-data owns /var/www/html
 # 04-jun-15 : call cc-initdb.sh finally.
 # 04-jun-15 : delay initialializing /var/www/html to map volume.
 # 04-jun-15 : key & salt.
@@ -73,7 +74,8 @@ function save_env_for_config_mysql () {
 function init2 () {
   # mv /var/www/html /var/www/html.orig
   cp -a /usr/local/wordpress /var/www/html
-  chown root.root -R /var/www/html
+  chown www-data.www-data -R /var/www/html
+  #chown root.root -R /var/www/html
 
   cp -p /opt/etc/wp-config.php /var/www/html/wp-config.php  
 }
