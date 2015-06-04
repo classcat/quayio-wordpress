@@ -71,7 +71,7 @@ function save_env_for_config_mysql () {
 # Dockerfile has unzipped wordpress-4.2.2-ja.zip onto /usr/local/wordpress,
 # and wp-config.php onto /opt/etc.
 function init2 () {
-  mv /var/www/html /var/www/html.orig
+  # mv /var/www/html /var/www/html.orig
   cp -a /usr/local/wordpress /var/www/html
   chown root.root -R /var/www/html
 
