@@ -7,6 +7,7 @@ MAINTAINER ClassCat Co.,Ltd. <support@classcat.com>
 ########################################################################
 
 #--- HISTORY -----------------------------------------------------------
+# 04-jun-15 : pwgen, wp-config.php
 # 04-jun-15 : created.
 #-----------------------------------------------------------------------
 
@@ -17,7 +18,7 @@ RUN apt-get update && apt-get -y upgrade \
   && apt-get install -y openssh-server supervisor rsyslog mysql-client \
        apache2 php5 php5-mysql php5-mcrypt php5-intl \
        php5-gd php5-json php5-curl php5-imagick libapache2-mod-php5 \
-  && apt-get install -y curl \
+  && apt-get install -y curl pwgen \
   && apt-get clean \
   && mkdir -p /var/run/sshd \
   && sed -i.bak -e "s/^PermitRootLogin\s*.*$/PermitRootLogin yes/" /etc/ssh/sshd_config \
@@ -32,9 +33,9 @@ RUN apt-get update && apt-get -y upgrade \
 
 # RUN sed -i -e 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 
-WORKDIR /usr/local
-
 COPY assets/supervisord.conf /etc/supervisor/supervisord.conf
+
+COPY assets/wp-config.php /var/www/html/wp-config.php
 
 WORKDIR /opt
 COPY assets/cc-init.sh   /opt/bin/cc-init.sh
