@@ -7,6 +7,7 @@ MAINTAINER ClassCat Co.,Ltd. <support@classcat.com>
 ########################################################################
 
 #--- HISTORY -----------------------------------------------------------
+# 04-jun-15 : ja
 # 04-jun-15 : pwgen, wp-config.php
 # 04-jun-15 : created.
 #-----------------------------------------------------------------------
@@ -18,7 +19,7 @@ RUN apt-get update && apt-get -y upgrade \
   && apt-get install -y openssh-server supervisor rsyslog mysql-client \
        apache2 php5 php5-mysql php5-mcrypt php5-intl \
        php5-gd php5-json php5-curl php5-imagick libapache2-mod-php5 \
-  && apt-get install -y curl pwgen \
+  && apt-get install -y curl pwgen unzip \
   && apt-get clean \
   && mkdir -p /var/run/sshd \
   && sed -i.bak -e "s/^PermitRootLogin\s*.*$/PermitRootLogin yes/" /etc/ssh/sshd_config \
@@ -26,7 +27,8 @@ RUN apt-get update && apt-get -y upgrade \
   && sed -i.bak -e "s/^;date\.timezone =.*$/date\.timezone = 'Asia\/Tokyo'/" /etc/php5/apache2/php.ini \
   && sed -i     -e "s/^;default_charset =.*$/default_charset = \"UTF-8\"/"   /etc/php5/apache2/php.ini \
   && cd /usr/local \
-  && curl -0L http://wordpress.org/wordpress-4.2.2.tar.gz | tar zxv \
+  && wget https://ja.wordpress.org/wordpress-4.2.2-ja.zip \
+  && unzip -d wordpress wordpress-4.2.2-ja.zip \
   && mv /var/www/html /var/www/html.orig \
   && cp -a wordpress /var/www/html \
   && chown root.root -R /var/www/html
