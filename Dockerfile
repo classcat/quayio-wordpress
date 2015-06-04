@@ -7,7 +7,7 @@ MAINTAINER ClassCat Co.,Ltd. <support@classcat.com>
 ########################################################################
 
 #--- HISTORY -----------------------------------------------------------
-# 04-jun-15 : ja
+# 04-jun-15 : ja, wp-config.ja.php
 # 04-jun-15 : pwgen, wp-config.php
 # 04-jun-15 : created.
 #-----------------------------------------------------------------------
@@ -37,7 +37,8 @@ RUN apt-get update && apt-get -y upgrade \
 
 COPY assets/supervisord.conf /etc/supervisor/supervisord.conf
 
-COPY assets/wp-config.php /var/www/html/wp-config.php
+COPY assets/wp-config.ja.php /var/www/html/wp-config.php
+#COPY assets/wp-config.php /var/www/html/wp-config.php
 
 WORKDIR /opt
 COPY assets/cc-init.sh   /opt/bin/cc-init.sh
