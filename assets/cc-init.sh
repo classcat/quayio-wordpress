@@ -6,6 +6,7 @@
 ########################################################################
 
 #--- HISTORY 2----------------------------------------------------------
+# 04-jun-16 : init2 & call initdb.sh here.
 # 04-jun-15 : key & salt.
 # 04-jun-15 : created.
 #-----------------------------------------------------------------------
@@ -66,6 +67,17 @@ function save_env_for_config_mysql () {
 ### WORDPRESS ###
 #################
 
+# Dockerfile has unzipped wordpress-4.2.2-ja.zip onto /usr/local/wordpress,
+# and wp-config.php onto /opt/etc.
+function init2 () {
+  # mv /var/www/html /var/www/html.orig
+  cp -a /usr/local/wordpress /var/www/html
+  chown root.root -R /var/www/html
+
+  cp -p /opt/etc/wp-config.php /var/www/html/wp-config.php  
+}
+
+
 function set_wp_config_php () {
   local config_file="/var/www/html/wp-config.php"
 
@@ -121,8 +133,12 @@ init
 change_root_password
 put_public_key
 save_env_for_config_mysql
+init2
 set_wp_config_php
 proc_supervisor
+
+sleep 5
+/opt/bin/cc-initdb.sh
 
 exit 0
 
