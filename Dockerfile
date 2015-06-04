@@ -28,7 +28,7 @@ RUN apt-get update && apt-get -y upgrade \
   && sed -i     -e "s/^;default_charset =.*$/default_charset = \"UTF-8\"/"   /etc/php5/apache2/php.ini \
   && cd /usr/local \
   && wget https://ja.wordpress.org/wordpress-4.2.2-ja.zip \
-  && unzip -d wordpress wordpress-4.2.2-ja.zip \
+  && unzip wordpress-4.2.2-ja.zip \
   && mv /var/www/html /var/www/html.orig \
   && cp -a wordpress /var/www/html \
   && chown root.root -R /var/www/html
