@@ -71,7 +71,7 @@ function save_env_for_config_mysql () {
 # and wp-config.php onto /opt/etc.
 function init2 () {
   mv /var/www/html /var/www/html.orig
-  cp -a wordpress /var/www/html
+  cp -a /usr/local/wordpress /var/www/html
   chown root.root -R /var/www/html
 
   cp -p /opt/etc/wp-config.php /var/www/html/wp-config.php  
