@@ -27,9 +27,17 @@ function init () {
 #############
 
 function config_mysql () {
-  echo $MYSQL_ROOT_PASSWORD > /root/debug
+  #echo $MYSQL_ROOT_PASSWORD > /root/debug
 
-  mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql -e "CREATE DATABASE wordpress"
+  RET=1
+  while [[ RET -ne 0 ]]; do
+    sleep 5
+    mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql -e "CREATE DATABASE wordpress"
+    RET=$?
+  done
+
+  #mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql -e "CREATE DATABASE wordpress"
+
   mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql -e "GRANT ALL PRIVILEGES ON wordpress.* TO wordpress@'%' IDENTIFIED BY 'ClassCatWordpress'";
 
 #  mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql webmail < /usr/local/roundcubemail-1.1.1/SQL/mysql.initial.sql
