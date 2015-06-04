@@ -67,7 +67,7 @@ function save_env_for_config_mysql () {
 #################
 
 function set_wp_config_php () {
-  local config_file="/var/www/html/wp-config.php
+  local config_file="/var/www/html/wp-config.php"
 
   local random1=`pwgen -s 64 1`
   local random2=`pwgen -s 64 1`
