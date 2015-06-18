@@ -7,6 +7,7 @@ MAINTAINER ClassCat Co.,Ltd. <support@classcat.com>
 ########################################################################
 
 #--- HISTORY -----------------------------------------------------------
+# 18-jun-15 : separate initdb.
 # 05-jun-15 : a2enmod rewrite & apache2.conf
 # 04-jun-15 : delay initialializing /var/www/html to map volume.
 # 04-jun-15 : ja, wp-config.ja.php
@@ -54,5 +55,6 @@ COPY assets/cc-initdb.sh /opt/bin/cc-initdb.sh
 
 EXPOSE 22 80
 
-CMD /opt/bin/cc-init.sh; /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+CMD /opt/bin/cc-init.sh; /opt/bin/cc-initdb.sh; /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+#CMD /opt/bin/cc-init.sh; /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
 #CMD /opt/bin/cc-init.sh; sleep 5; /opt/bin/cc-initdb.sh; /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
