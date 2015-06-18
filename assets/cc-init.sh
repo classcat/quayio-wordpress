@@ -149,7 +149,7 @@ put_public_key
 save_env_for_config_mysql
 
 if [ -e /opt/cc-init_done ]; then
-  echo "ClassCat Warning >> /opt/cc-init_down found, then skip wp configuration."
+  echo "ClassCat Warning >> /opt/cc-init_done found, then skip wp configuration."
 else
   init2
   set_wp_config_php
