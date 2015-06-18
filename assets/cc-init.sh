@@ -6,6 +6,7 @@
 ########################################################################
 
 #--- HISTORY 2----------------------------------------------------------
+# 18-jun-15 : skip code for start method.
 # 05-jun-15 : www-data owns /var/www/html
 # 04-jun-15 : call cc-initdb.sh finally.
 # 04-jun-15 : delay initialializing /var/www/html to map volume.
@@ -55,7 +56,12 @@ function put_public_key() {
 #############
 
 function save_env_for_config_mysql () {
-  # echo $MYSQL_ROOT_PASSWORD > /root/mysqlpass
+
+  if [ -e /opt/env.sh ]; then
+    echo "ClassCat Warning >> /opt/env.sh found, then skip configuration."
+    return
+  fi
+
   echo "export MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}" > /opt/env.sh
 
   #mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql -e "CREATE DATABASE webmail"
@@ -117,6 +123,11 @@ function set_wp_config_php () {
 # See http://docs.docker.com/articles/using_supervisord/
 
 function proc_supervisor () {
+  if [ -e /etc/supervisor/conf.d/supervisord.conf ]; then
+    echo "ClassCat Warning >> /etc/supervisor/conf.d/supervisord.conf found, then skip configuration."
+    return
+  fi
+
   cat > /etc/supervisor/conf.d/supervisord.conf <<EOF
 [program:ssh]
 command=/usr/sbin/sshd -D
@@ -136,12 +147,19 @@ init
 change_root_password
 put_public_key
 save_env_for_config_mysql
-init2
-set_wp_config_php
+
+if [ -e /opt/cc-init_done ]; then
+  echo "ClassCat Warning >> /opt/cc-init_down found, then skip wp configuration."
+else
+  init2
+  set_wp_config_php
+  touch /opt/cc-init_done
+fi
+
 proc_supervisor
 
-# initialize database.
-/opt/bin/cc-initdb.sh
+## initialize database.
+#/opt/bin/cc-initdb.sh
 
 exit 0
 
